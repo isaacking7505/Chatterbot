@@ -1,0 +1,3 @@
+chatterbot==1.0.8
+discord.py==2.3.2
+# TODO: Add requests for API integration

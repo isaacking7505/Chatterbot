@@ -1,8 +1,7 @@
-categories:  
-  - trivia  
-conversations:  
-  - - What is the capital of France?  
-    - Paris!  
-  - - How many planets are in our solar system?  
-    - Eight!  
-  # TODO: Add questions
+conversations:
+  - - What is the capital of France?
+    - Paris!
+  - - How many planets in our solar system?
+    - Eight!
+  - - What is 2+2?
+    - That's easy! 4!

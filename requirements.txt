@@ -1,3 +1,5 @@
-chatterbot==1.0.8
-discord.py==2.3.2
-# TODO: Add requests for API integration
+discord.py==2.5.2
+chatterbot==1.2.1
+chatterbot-corpus==1.2.2
+PyYAML==6.0.2
+python-dotenv==1.1.0

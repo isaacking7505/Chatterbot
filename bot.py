@@ -4,20 +4,19 @@ from discord.ext import commands
 import os
 import json
 import random
+import asyncio
 from dotenv import load_dotenv
 from chatbot_trainer import chatbot
 
-# Load environment variables
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+OWNER_ID = int(os.getenv('OWNER_ID'))  # Add your Discord ID to .env
 
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
-
-# Track active trivia sessions
 active_trivia_sessions = {}
 
 # Load quotes
@@ -32,26 +31,25 @@ TRIVIA_QUESTIONS = [
     {"q": "What planet is known as the Red Planet?", "a": "Mars"}
 ]
 
-@bot.command(name='whoami')
-async def whoami(ctx):
-    # Tell you who Discord thinks you are and what the bot thinks its owner_id is
-    owner = getattr(bot, "owner_id", None)
-    await ctx.send(f"Your ID: {ctx.author.id}\n"
-                   f"Bot.owner_id: {owner}")
-
-ADMIN_ID = int(os.getenv("ADMIN_ID", 0))
-
-@bot.command(name='shutdown')
-async def shutdown(ctx):
-    if ctx.author.id != ADMIN_ID:
-        return await ctx.send("❌ You are not allowed to do that.")
-    await ctx.send("⚙️ Shutting down…")
-    await bot.close()
-
 @bot.event
 async def on_ready():
     print(f'Logged in as {bot.user}')
     await bot.change_presence(activity=discord.Game(name="!trivia"))
+
+@bot.command(name='restart')
+@commands.is_owner()
+async def restart(ctx):
+    """Restart the bot (Owner only)"""
+    await ctx.send("🔄 Restarting...")
+    await bot.close()
+    # This will exit the script, and you'll need external tools to auto-restart
+    
+@bot.command(name='shutdown')
+@commands.is_owner()
+async def shutdown(ctx):
+    """Shut down the bot (Owner only)"""
+    await ctx.send("⏏️ Shutting down...")
+    await bot.close()
 
 @bot.command(name='trivia')
 async def trivia(ctx):
@@ -97,3 +95,11 @@ async def on_message(message):
 
 if __name__ == "__main__":
     bot.run(TOKEN)
+
+if __name__ == "__main__":
+    try:
+        bot.run(TOKEN)
+    except KeyboardInterrupt:
+        print("\nBot terminated by user")
+    finally:
+        print("Cleaning up resources...")

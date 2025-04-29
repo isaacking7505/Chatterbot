@@ -9,7 +9,7 @@ A Discord bot for trivia games and quotes.
 ## Setup  
 1. Clone this repo.  
 2. Install dependencies: `pip install -r requirements.txt`  
-3. Add your Discord bot token to `bot.py` (INSECURE – TODO: Use .env).  
+3. Add your Discord bot token to `bot.py`
 4. Run `python bot.py`.  
 
 ## TODO  
